@@ -46,35 +46,54 @@ objects:
       app: elegante
     name: elegante
   spec:
-    containers:
-    - image: elegante:latest
-      imagePullPolicy: Always
-      name: elegante
-      readinessProbe:
-        httpGet:
-          path: /actuator/health
-          port: 8080
-        initialDelaySeconds: 30
-        periodSeconds: 3
-      lifecycle:
-        preStop:
-          exec:
-            command: ["echo", "'Going to sleep'",";","sleep", "300"]
-      ports:
-      - containerPort: 8080
-        protocol: TCP
-      resources:
-        requests:
-          cpu: 100m 
-          memory: 1Gi 
-        limits:
-          cpu: 200m 
-          memory: 2Gi 
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      securityContext: {}
-      terminationGracePeriodSeconds: 30
+    replicas: 1
+    selector:
+      app: elegante
+      deploymentconfig: elegante
+    strategy:
+      resources: {}
+      rollingParams:
+        intervalSeconds: 1
+        maxSurge: 25%
+        maxUnavailable: 25%
+        timeoutSeconds: 600
+        updatePeriodSeconds: 1
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          app: elegante
+          deploymentconfig: elegante
+      spec:
+        containers:
+        - image: elegante:latest
+          imagePullPolicy: Always
+          name: elegante
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sleep", "500"]
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          resources:
+            requests:
+              cpu: 100m 
+              memory: 1Gi 
+            limits:
+              cpu: 200m 
+              memory: 2Gi 
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
     test: false
     triggers:
     - type: ConfigChange
