@@ -16,7 +16,7 @@ public class Application {
     public void onExit() {
       System.out.println("SHUTDOWN REQUEST RECEIVED");
       try {
-        Thread.sleep(5 * 1000);
+        Thread.sleep(5000);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
