@@ -5,13 +5,13 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 class ShutDownHookRegister {
 
-    @Autowired
-    private CustomHealthIndicator customHealthIndicator;
+    //@Autowired
+    //private CustomHealthIndicator customHealthIndicator;
 
-    @PostConstruct
+    //@PostConstruct
     void init() {
         registerShutDownHook(Thread.currentThread());
     }
@@ -21,7 +21,7 @@ class ShutDownHookRegister {
 		Thread monitorThread = new Thread(() -> {
 			//customHealthIndicator.setIsShutDownTriggered(true);
             System.out.println("Shutdown Sequence INITIATED -->");
-            System.out.println("THE THREAD STATE IS->" + controlThread.getState());
+            System.out.println("THE THREAD STATE for [" +controlThread.getName() +"] IS->" + controlThread.getState());
 			controlThread.interrupt();
 			System.out.println("Controll Thread - ["+controlThread.getName()+"] Stopped before program exit. . .");
 		});
