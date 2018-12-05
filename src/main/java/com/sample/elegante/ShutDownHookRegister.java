@@ -22,7 +22,8 @@ class ShutDownHookRegister {
 			//customHealthIndicator.setIsShutDownTriggered(true);
             System.out.println("Shutdown Sequence INITIATED -->");
             try {
-                Thread.sleep(5000);
+                System.out.println("GOING TO SLEEP -->");
+                controlThread.sleep(10000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
