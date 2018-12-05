@@ -21,10 +21,7 @@ class ShutDownHookRegister {
 		Thread monitorThread = new Thread(() -> {
 			//customHealthIndicator.setIsShutDownTriggered(true);
             System.out.println("Shutdown Sequence INITIATED -->");
-            while(controlThread.isAlive()) {
-                System.out.println("Thread is ALIVE -->");
-                continue;
-            }
+            System.out.println("THE THREAD STATE IS->" + controlThread.getState());
 			controlThread.interrupt();
 			System.out.println("Controll Thread - ["+controlThread.getName()+"] Stopped before program exit. . .");
 		});
